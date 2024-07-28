@@ -8,13 +8,16 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     [Header("Config Player")]
-    public float movementSpeed = 3f;
+    public float movementSpeed = 3f;    
 
-    [Header("Camera")]
-    public GameObject cambB;
+    [Header("Attack Config")]
+    public ParticleSystem fxAttack;
 
     private Vector3 direction;
     private bool isWalk;
+    private float horizontal;
+    private float vertical;
+    private bool isAttack;
 
     void Start()
     {
@@ -24,15 +27,29 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        Inputs();
 
-        direction = new Vector3(horizontal, 0f, vertical).normalized;
+        MoveCharacter();
 
-        if (Input.GetButtonDown("Fire1"))
+        UpdateAnimator();
+    }
+
+    private void Inputs()
+    {
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+        if (Input.GetButtonDown("Fire1") && !isAttack)
         {
+            isAttack = true;
             animator.SetTrigger("Attack");
+            fxAttack.Emit(1);
         }
+    }
+
+    private void MoveCharacter()
+    {
+        direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         if (direction.magnitude > 0.1f)
         {
@@ -46,30 +63,16 @@ public class PlayerController : MonoBehaviour
         }
 
         characterController.Move(direction * movementSpeed * Time.deltaTime);
+    }
+
+    private void UpdateAnimator()
+    {
         animator.SetBool("isWalk", isWalk);
-
     }
 
-
-    private void OnTriggerEnter(Collider other)
+    public void AttackDone()
     {
-        switch(other.tag)
-        {
-            case "CamTrigger":
-                cambB.SetActive(true);
-                break;
-        }
+        isAttack = false;
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        switch (other.tag)
-        {
-            case "CamTrigger":
-                cambB.SetActive(false);
-                break;
-        }
-    }
-
 
 }
