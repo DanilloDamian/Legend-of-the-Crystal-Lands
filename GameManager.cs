@@ -11,7 +11,7 @@ public enum enemyState
 
 public enum GameState
 {
-    PLAY, GAMEOVER
+    PLAY, GAMEOVER, PAUSE
 }
 
 public class GameManager : MonoBehaviour
@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public Transform player;
     public GameObject menuGameOver;
+
+    [Header("Menu Config")]
+    public GameObject buttonRestart;
+    public GameObject buttonResume;
+    public Text textMenu;
 
     [Header("Inventory")]
     public Text txtDiamonds;
@@ -52,7 +57,7 @@ public class GameManager : MonoBehaviour
     public AudioSource audioMenuConfirm;
     public AudioSource audioAttackSlime;
     private bool audioHasPlayed;
-    private bool audioAttackSlimeHasPlayed;
+
 
     void Start()
     {
@@ -60,6 +65,16 @@ public class GameManager : MonoBehaviour
         audioBackground.Play();
     }  
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if(gameState == GameState.PLAY)
+            {
+            ChangeGameState(GameState.PAUSE);
+            }           
+        }
+    }
 
     public void OnOffRaind(bool isRain)
     {
@@ -120,11 +135,25 @@ public class GameManager : MonoBehaviour
     public void ChangeGameState(GameState newGameState)
     {
         gameState = newGameState;
-        if(newGameState == GameState.GAMEOVER)
-        {
 
-            GameOver();
+        switch (gameState)
+        {
+            case GameState.GAMEOVER:
+                GameOver();
+                break;
+            case GameState.PAUSE:
+                buttonResume.SetActive(true);
+                buttonRestart.SetActive(false);
+                textMenu.text = "Jogo Pausado!";
+                menuGameOver.SetActive(true);
+                Time.timeScale = 0;
+                break;
+            case GameState.PLAY:
+                menuGameOver.SetActive(false);
+                Time.timeScale = 1;
+                break;
         }
+       
     }
 
     public void GameOver()
@@ -132,7 +161,10 @@ public class GameManager : MonoBehaviour
         if (!audioHasPlayed) { 
             audioGameOver.Play();
             audioHasPlayed = true;
-        }        
+        }
+        buttonResume.SetActive(false);
+        buttonRestart.SetActive(true);
+        textMenu.text = "Você morreu!";
         menuGameOver.SetActive(true);
     }
 
