@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public float hitrange;
     public LayerMask hitMask;
     public int hitDamage = 1;
+    public AudioSource audioSword;
 
     void Start()
     {
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         isAttack = true;
         animator.SetTrigger("Attack");
+        audioSword.Play();
         fxAttack.Emit(1);
         Collider[] hitInfo = Physics.OverlapSphere(hitBox.position, hitrange, hitMask);
         foreach(Collider c in hitInfo)
