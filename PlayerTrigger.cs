@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class dynamicCam : MonoBehaviour
+public class PlayerTrigger : MonoBehaviour
 {
     public GameObject vCam2;
+    private GameManager _gameManager;
+
+    void Start()
+    {
+        _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,6 +18,10 @@ public class dynamicCam : MonoBehaviour
         {
             case "CamTrigger":
                 vCam2.SetActive(true);
+                break;
+            case "Diamond":
+                _gameManager.UpdateDiamonds(1);
+                Destroy(other.gameObject);
                 break;
         }
     }
