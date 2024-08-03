@@ -29,9 +29,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask hitMask;
     public int hitDamage = 1;
 
-    [Header("Audio Config")]
-    public AudioSource audioSword;
-    public AudioSource audioPlayerTakeDamage;
 
 
     void Start()
@@ -39,6 +36,7 @@ public class PlayerController : MonoBehaviour
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
     }
 
     void FixedUpdate()
@@ -77,7 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         isAttack = true;
         animator.SetTrigger("Attack");
-        audioSword.Play();
+        _gameManager.PlayAudioAttackPlayer();
         fxAttack.Emit(1);
         Collider[] hitInfo = Physics.OverlapSphere(hitBox.position, hitrange, hitMask);
         foreach(Collider c in hitInfo)
@@ -130,7 +128,7 @@ public class PlayerController : MonoBehaviour
         if(HP > 0)
         {
             animator.SetTrigger("Hit");
-            audioPlayerTakeDamage.Play();
+            _gameManager.PlayAudioPlayerTakeDamage();
         }
         else
         {

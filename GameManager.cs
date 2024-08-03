@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
@@ -17,13 +19,22 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public GameState gameState;
-    public Transform player;
+    public GameObject playerPrefab;
+    public GameObject playerInstance;
     public GameObject menuGameOver;
+    public CinemachineVirtualCamera vcam1;
+    public CinemachineVirtualCamera vcam2;
+    
 
     [Header("Menu Config")]
     public GameObject buttonRestart;
     public GameObject buttonResume;
+    public GameObject buttonQuit;
     public Text textMenu;
+    public Text textRestart;
+    private bool isNewGame = true;
+    public int timeRestart = 5;
+
 
     [Header("Inventory")]
     public Text txtDiamonds;
@@ -56,6 +67,8 @@ public class GameManager : MonoBehaviour
     public AudioSource audioGameOver;
     public AudioSource audioMenuConfirm;
     public AudioSource audioAttackSlime;
+    public AudioSource audioSword;
+    public AudioSource audioPlayerTakeDamage;
     private bool audioHasPlayed;
 
 
@@ -63,6 +76,8 @@ public class GameManager : MonoBehaviour
     {
         rainModule = rainParticle.emission;
         audioBackground.Play();
+        playerInstance = Instantiate(playerPrefab);
+
     }  
 
     void Update()
@@ -74,6 +89,17 @@ public class GameManager : MonoBehaviour
             ChangeGameState(GameState.PAUSE);
             }           
         }
+       
+        if (vcam1 != null && vcam2 != null)
+        {
+            UpdateCams(playerInstance.transform);
+        }
+        
+    }
+    public void UpdateCams(Transform focus)
+    {        
+        vcam1.Follow = focus;
+        vcam2.Follow = focus;
     }
 
     public void OnOffRaind(bool isRain)
@@ -144,6 +170,7 @@ public class GameManager : MonoBehaviour
             case GameState.PAUSE:
                 buttonResume.SetActive(true);
                 buttonRestart.SetActive(false);
+                buttonQuit.SetActive(true);
                 textMenu.text = "Jogo Pausado!";
                 menuGameOver.SetActive(true);
                 Time.timeScale = 0;
@@ -151,6 +178,11 @@ public class GameManager : MonoBehaviour
             case GameState.PLAY:
                 menuGameOver.SetActive(false);
                 Time.timeScale = 1;
+                if (isNewGame) {
+                    Destroy(playerInstance);
+                    playerInstance = Instantiate(playerPrefab);
+                    isNewGame = false;
+                }                
                 break;
         }
        
@@ -164,6 +196,7 @@ public class GameManager : MonoBehaviour
         }
         buttonResume.SetActive(false);
         buttonRestart.SetActive(true);
+        buttonQuit.SetActive(true);
         textMenu.text = "Você morreu!";
         menuGameOver.SetActive(true);
     }
@@ -184,5 +217,46 @@ public class GameManager : MonoBehaviour
     {
         audioAttackSlime.PlayDelayed(0.07f);
     }
-    
+
+    public void PlayAudioAttackPlayer()
+    {
+        audioSword.Play();
+    }
+    public void PlayAudioPlayerTakeDamage()
+    {
+        audioPlayerTakeDamage.Play();
+    }
+    public void RestartGame()
+    {
+        textRestart.text = timeRestart.ToString();
+        isNewGame = true;        
+        textRestart.gameObject.SetActive(true);  
+        StartCoroutine(RestartGameCourotine());
+        StartCoroutine(LoopWithDelay());
+    }
+
+    IEnumerator LoopWithDelay()
+    {
+        buttonResume.SetActive(false);
+        buttonRestart.SetActive(false);
+        buttonQuit.SetActive(false);
+        for (int i = timeRestart; i >= 0; i--)
+        {            
+            textRestart.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+    }
+    IEnumerator RestartGameCourotine()
+    {
+        yield return new WaitForSeconds(timeRestart);
+        isNewGame = true;
+        textRestart.gameObject.SetActive(false);
+        ChangeGameState(GameState.PLAY);
+    }
+
+    public void ReturnMenu()
+    {
+        Application.Quit();
+    }
+
 }

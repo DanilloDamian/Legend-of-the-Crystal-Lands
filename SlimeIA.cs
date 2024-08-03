@@ -106,7 +106,7 @@ public class SlimeIA : MonoBehaviour
                 break;
             case enemyState.FOLLOW:
                 LookAt();
-                destination = _gameManager.player.position;
+                destination = _gameManager.playerInstance.transform.position;
                 agent.destination = destination;
 
                 if (agent.remainingDistance <= agent.stoppingDistance)
@@ -117,7 +117,7 @@ public class SlimeIA : MonoBehaviour
                 break;
             case enemyState.FURY:
                 LookAt();
-                destination = _gameManager.player.position;
+                destination = _gameManager.playerInstance.transform.position;
                 agent.destination = destination;
                 isAttack = false;
                 if (agent.remainingDistance <= agent.stoppingDistance)
@@ -256,7 +256,7 @@ public class SlimeIA : MonoBehaviour
 
     void LookAt()
     {
-        Vector3 lookDirection = (_gameManager.player.position - transform.position).normalized;
+        Vector3 lookDirection = (_gameManager.playerInstance.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, _gameManager.slimeLookAtSpeed * Time.deltaTime);
     }

@@ -10,6 +10,7 @@ public class PlayerTrigger : MonoBehaviour
     void Start()
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        vCam2 = GameObject.Find("CM vcam2");
     }
 
     private void OnTriggerEnter(Collider other)
