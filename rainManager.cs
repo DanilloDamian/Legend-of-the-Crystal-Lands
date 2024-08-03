@@ -16,7 +16,7 @@ public class rainManager : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            _gameManager.OnOffRaind(isRain);
+            _gameManager.OnOffRaind(isRain);            
         }
     }
 }

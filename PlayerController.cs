@@ -28,7 +28,11 @@ public class PlayerController : MonoBehaviour
     public float hitrange;
     public LayerMask hitMask;
     public int hitDamage = 1;
+
+    [Header("Audio Config")]
     public AudioSource audioSword;
+    public AudioSource audioPlayerTakeDamage;
+
 
     void Start()
     {
@@ -37,7 +41,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(_gameManager.gameState == GameState.PLAY)
         {
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
         if(HP > 0)
         {
             animator.SetTrigger("Hit");
+            audioPlayerTakeDamage.Play();
         }
         else
         {

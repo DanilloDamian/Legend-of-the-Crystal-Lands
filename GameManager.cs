@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 {
     public GameState gameState;
     public Transform player;
+    public GameObject menuGameOver;
 
     [Header("Inventory")]
     public Text txtDiamonds;
@@ -45,7 +46,13 @@ public class GameManager : MonoBehaviour
     public int chanceDropDiamond = 50;
 
     [Header("Audio")]    
-    public AudioSource audioBackground;
+    public AudioSource audioBackground;    
+    public AudioSource audioRain;
+    public AudioSource audioGameOver;
+    public AudioSource audioMenuConfirm;
+    public AudioSource audioAttackSlime;
+    private bool audioHasPlayed;
+    private bool audioAttackSlimeHasPlayed;
 
     void Start()
     {
@@ -67,7 +74,7 @@ public class GameManager : MonoBehaviour
         switch (isRain)
         {
             case true:
-
+                audioRain.Play();
                 for (float r = rainModule.rateOverTime.constant; r < rainRateOverTime; r += rainIncrement)
                 {
                     rainModule.rateOverTime = r;
@@ -76,6 +83,7 @@ public class GameManager : MonoBehaviour
                 rainModule.rateOverTime = rainRateOverTime;
                 break;
             case false:
+                audioRain.Stop();
                 for (float r = rainModule.rateOverTime.constant; r > 0; r -= rainIncrement)
                 {
                     rainModule.rateOverTime = r;
@@ -112,6 +120,20 @@ public class GameManager : MonoBehaviour
     public void ChangeGameState(GameState newGameState)
     {
         gameState = newGameState;
+        if(newGameState == GameState.GAMEOVER)
+        {
+
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        if (!audioHasPlayed) { 
+            audioGameOver.Play();
+            audioHasPlayed = true;
+        }        
+        menuGameOver.SetActive(true);
     }
 
     public void UpdateDiamonds(int amount)
@@ -125,4 +147,10 @@ public class GameManager : MonoBehaviour
         int random = Random.Range(0, 100);
         return random <= chance ? true : false;
     }
+
+    public void PlayAudioAttackSlime()
+    {
+        audioAttackSlime.PlayDelayed(0.07f);
+    }
+    
 }

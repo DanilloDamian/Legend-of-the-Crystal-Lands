@@ -21,7 +21,6 @@ public class SlimeIA : MonoBehaviour
     private bool isAlert;
     private bool isPlayerVisible;
     private bool isAttack;
-    public AudioSource audioAttackSlime;
     void Start()
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
@@ -245,9 +244,10 @@ public class SlimeIA : MonoBehaviour
         {
             isAttack = true;
             animator.SetTrigger("Attack");
-            audioAttackSlime.Play();
+            _gameManager.PlayAudioAttackSlime();
         }
     }
+   
 
     public void AttackDone()
     {
