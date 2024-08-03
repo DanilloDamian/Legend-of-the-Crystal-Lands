@@ -14,7 +14,7 @@ public class Grass : MonoBehaviour
     {
         if(!isCut)
         {
-            fxHit.Emit(10);
+            fxHit.Emit(20);
             transform.localScale = new Vector3(1f,1f,1f);
             isCut = true;
             StartCoroutine(LeafGrows());

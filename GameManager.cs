@@ -44,10 +44,15 @@ public class GameManager : MonoBehaviour
     public GameObject diamondPrefab;
     public int chanceDropDiamond = 50;
 
+    [Header("Audio")]    
+    public AudioSource audioBackground;
+
     void Start()
     {
         rainModule = rainParticle.emission;
-    }
+        audioBackground.Play();
+    }  
+
 
     public void OnOffRaind(bool isRain)
     {
