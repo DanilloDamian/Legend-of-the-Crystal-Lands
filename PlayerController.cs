@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
     private Animator animator;
+    private GameManager _gameManager;
 
     [Header("Config Player")]
     public float movementSpeed = 3f;    
@@ -17,21 +19,42 @@ public class PlayerController : MonoBehaviour
     private bool isWalk;
     private float horizontal;
     private float vertical;
+    [SerializeField]
     private bool isAttack;
+
+    public int HP = 3;
+    public Transform hitBox;
+    [Range(0, 1)]
+    public float hitrange;
+    public LayerMask hitMask;
+    public int hitDamage = 1;
 
     void Start()
     {
+        _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        Inputs();
+        if(_gameManager.gameState == GameState.PLAY)
+        {
+            Inputs();
 
-        MoveCharacter();
+            MoveCharacter();
 
-        UpdateAnimator();
+            UpdateAnimator();
+        }
+       
+    }
+
+   void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "TakeDamage")
+        {
+            GetHit(1);
+        }
     }
 
     private void Inputs()
@@ -41,10 +64,21 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && !isAttack)
         {
-            isAttack = true;
-            animator.SetTrigger("Attack");
-            fxAttack.Emit(1);
+            Attack();
         }
+    }
+
+    private void Attack()
+    {
+        isAttack = true;
+        animator.SetTrigger("Attack");
+        fxAttack.Emit(1);
+        Collider[] hitInfo = Physics.OverlapSphere(hitBox.position, hitrange, hitMask);
+        foreach(Collider c in hitInfo)
+        {           
+            c.gameObject.SendMessage("GetHit", hitDamage, SendMessageOptions.DontRequireReceiver);
+        }
+
     }
 
     private void MoveCharacter()
@@ -75,4 +109,26 @@ public class PlayerController : MonoBehaviour
         isAttack = false;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        
+        if (hitBox)
+        {
+            Gizmos.DrawWireSphere(hitBox.position, hitrange);
+        }
+    }
+
+    void GetHit(int amount)
+    {
+        HP -= amount;
+        if(HP > 0)
+        {
+            animator.SetTrigger("Hit");
+        }
+        else
+        {
+            _gameManager.ChangeGameState(GameState.GAMEOVER);
+            animator.SetTrigger("Die");
+        }
+    }
 }
