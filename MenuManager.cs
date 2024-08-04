@@ -14,16 +14,19 @@ public class MenuManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        _gameManager.audioMenuConfirm.Play();
         _gameManager.ChangeGameState(GameState.PLAY);
     }
 
     public void RestarGame()
     {
+        _gameManager.audioMenuConfirm.Play();
         _gameManager.RestartGame();
     }
 
     public void ReturnMenu()
     {
+        _gameManager.audioMenuConfirm.Play();
         _gameManager.ReturnMenu();
     }
 }
