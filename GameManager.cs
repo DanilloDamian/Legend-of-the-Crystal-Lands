@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public GameObject playerPrefab;
     public GameObject playerInstance;
+    public PlayerController playerController;
     public GameObject menuGameOver;
     public CinemachineVirtualCamera vcam1;
     public CinemachineVirtualCamera vcam2;
     public GameObject canvas;
     public UIManager uiManager;
-
 
     [Header("Menu Config")]
     public GameObject buttonRestart;
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         audioBackground.Play();
         playerInstance = Instantiate(playerPrefab);
         uiManager = canvas.GetComponent<UIManager>();
-
+        playerController = playerInstance.GetComponent<PlayerController>();
     }
 
     void Update()
@@ -99,9 +99,11 @@ public class GameManager : MonoBehaviour
             UpdateCams(playerInstance.transform);
         }
 
-        uiManager.UpdateLifes(playerInstance.GetComponent<PlayerController>().HP);
-
+        uiManager.UpdateLifes(playerController.HP);       
+        
     }
+
+
     public void UpdateCams(Transform focus)
     {
         vcam1.Follow = focus;
@@ -189,6 +191,8 @@ public class GameManager : MonoBehaviour
                     Destroy(playerInstance);
                     playerInstance = Instantiate(playerPrefab);
                     isNewGame = false;
+                    playerController = playerInstance.GetComponent<PlayerController>();
+                    uiManager.UpdateLifes(playerController.HP);
                 }
                 break;
         }
@@ -239,8 +243,9 @@ public class GameManager : MonoBehaviour
         textRestart.text = timeRestart.ToString();
         isNewGame = true;
         textRestart.gameObject.SetActive(true);
-        StartCoroutine(RestartGameCourotine());
+        ControlCam2(false);
         StartCoroutine(LoopWithDelay());
+        StartCoroutine(RestartGameCourotine());
     }
 
     IEnumerator LoopWithDelay()
@@ -267,7 +272,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void ActiveCam2(bool camBool)
+    public void ControlCam2(bool camBool)
     {
         vcam2.gameObject.SetActive(camBool);
     }

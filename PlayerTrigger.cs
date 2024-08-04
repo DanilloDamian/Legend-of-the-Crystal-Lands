@@ -16,7 +16,7 @@ public class PlayerTrigger : MonoBehaviour
         switch (other.tag)
         {
             case "CamTrigger":
-                _gameManager.ActiveCam2(true);
+                _gameManager.ControlCam2(true);
                 break;
             case "Diamond":
                 _gameManager.UpdateDiamonds(1);
@@ -30,7 +30,7 @@ public class PlayerTrigger : MonoBehaviour
         switch (other.tag)
         {
             case "CamTrigger":
-                _gameManager.ActiveCam2(false);
+                _gameManager.ControlCam2(false);
                 break;
         }
     }
