@@ -81,11 +81,13 @@ public class GameManager : MonoBehaviour
         playerInstance = Instantiate(playerPrefab);
         uiManager = canvas.GetComponent<UIManager>();
         playerController = playerInstance.GetComponent<PlayerController>();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (gameState == GameState.PLAY)
             {
@@ -181,10 +183,14 @@ public class GameManager : MonoBehaviour
                 buttonQuit.SetActive(true);
                 textMenu.text = "Jogo Pausado!";
                 menuGameOver.SetActive(true);
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
                 break;
             case GameState.PLAY:
                 menuGameOver.SetActive(false);
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 if (isNewGame)
                 {
@@ -211,6 +217,8 @@ public class GameManager : MonoBehaviour
         buttonQuit.SetActive(true);
         textMenu.text = "Você morreu!";
         menuGameOver.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void UpdateDiamonds(int amount)
