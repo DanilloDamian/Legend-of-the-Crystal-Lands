@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class PlayerTrigger : MonoBehaviour
 {
-    public GameObject vCam2;
-    private GameManager _gameManager;
+     private GameManager _gameManager;
 
     void Start()
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
-        vCam2 = GameObject.Find("CM vcam2");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +16,7 @@ public class PlayerTrigger : MonoBehaviour
         switch (other.tag)
         {
             case "CamTrigger":
-                vCam2.SetActive(true);
+                _gameManager.ActiveCam2(true);
                 break;
             case "Diamond":
                 _gameManager.UpdateDiamonds(1);
@@ -32,7 +30,7 @@ public class PlayerTrigger : MonoBehaviour
         switch (other.tag)
         {
             case "CamTrigger":
-                vCam2.SetActive(false);
+                _gameManager.ActiveCam2(false);
                 break;
         }
     }

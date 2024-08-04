@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour
     public GameObject menuGameOver;
     public CinemachineVirtualCamera vcam1;
     public CinemachineVirtualCamera vcam2;
-    
+    public GameObject canvas;
+    public UIManager uiManager;
+
 
     [Header("Menu Config")]
     public GameObject buttonRestart;
@@ -61,8 +63,8 @@ public class GameManager : MonoBehaviour
     public GameObject diamondPrefab;
     public int chanceDropDiamond = 50;
 
-    [Header("Audio")]    
-    public AudioSource audioBackground;    
+    [Header("Audio")]
+    public AudioSource audioBackground;
     public AudioSource audioRain;
     public AudioSource audioGameOver;
     public AudioSource audioMenuConfirm;
@@ -77,27 +79,31 @@ public class GameManager : MonoBehaviour
         rainModule = rainParticle.emission;
         audioBackground.Play();
         playerInstance = Instantiate(playerPrefab);
+        uiManager = canvas.GetComponent<UIManager>();
 
-    }  
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if(gameState == GameState.PLAY)
+            if (gameState == GameState.PLAY)
             {
-            ChangeGameState(GameState.PAUSE);
-            }           
+                isNewGame = false;
+                ChangeGameState(GameState.PAUSE);
+            }
         }
-       
+
         if (vcam1 != null && vcam2 != null)
         {
             UpdateCams(playerInstance.transform);
         }
-        
+
+        uiManager.UpdateLifes(playerInstance.GetComponent<PlayerController>().HP);
+
     }
     public void UpdateCams(Transform focus)
-    {        
+    {
         vcam1.Follow = focus;
         vcam2.Follow = focus;
     }
@@ -178,19 +184,21 @@ public class GameManager : MonoBehaviour
             case GameState.PLAY:
                 menuGameOver.SetActive(false);
                 Time.timeScale = 1;
-                if (isNewGame) {
+                if (isNewGame)
+                {
                     Destroy(playerInstance);
                     playerInstance = Instantiate(playerPrefab);
                     isNewGame = false;
-                }                
+                }
                 break;
         }
-       
+
     }
 
     public void GameOver()
     {
-        if (!audioHasPlayed) { 
+        if (!audioHasPlayed)
+        {
             audioGameOver.Play();
             audioHasPlayed = true;
         }
@@ -229,8 +237,8 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         textRestart.text = timeRestart.ToString();
-        isNewGame = true;        
-        textRestart.gameObject.SetActive(true);  
+        isNewGame = true;
+        textRestart.gameObject.SetActive(true);
         StartCoroutine(RestartGameCourotine());
         StartCoroutine(LoopWithDelay());
     }
@@ -241,7 +249,7 @@ public class GameManager : MonoBehaviour
         buttonRestart.SetActive(false);
         buttonQuit.SetActive(false);
         for (int i = timeRestart; i >= 0; i--)
-        {            
+        {
             textRestart.text = i.ToString();
             yield return new WaitForSeconds(1);
         }
@@ -257,6 +265,11 @@ public class GameManager : MonoBehaviour
     public void ReturnMenu()
     {
         Application.Quit();
+    }
+
+    public void ActiveCam2(bool camBool)
+    {
+        vcam2.gameObject.SetActive(camBool);
     }
 
 }
