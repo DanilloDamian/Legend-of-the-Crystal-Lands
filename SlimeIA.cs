@@ -178,7 +178,7 @@ public class SlimeIA : MonoBehaviour
     IEnumerator Died()
     {
         isDie = true;
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.5f);
 
         if (_gameManager.DropDiamond(_gameManager.chanceDropDiamond))
         {
