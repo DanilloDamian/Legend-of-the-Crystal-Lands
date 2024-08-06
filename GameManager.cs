@@ -99,9 +99,7 @@ public class GameManager : MonoBehaviour
         if (vcam1 != null && vcam2 != null)
         {
             UpdateCams(playerInstance.transform);
-        }
-
-        uiManager.UpdateLifes(playerController.HP);       
+        }     
         
     }
 
