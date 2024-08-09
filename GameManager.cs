@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     private int diamonds;
 
     [Header("Enemy IA")]
-    public float slimeIdleWaitTime;
+    public float slimeIdleWaitTime = 4f;
     public float slimeDistanceAttack = 2.3f;
     public float slimeAlertTime = 3f;
     public float slimeAttackDelay = 1f;
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {        
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (gameState == GameState.PLAY)
@@ -196,11 +197,16 @@ public class GameManager : MonoBehaviour
                     playerInstance = Instantiate(playerPrefab);
                     isNewGame = false;
                     playerController = playerInstance.GetComponent<PlayerController>();
-                    uiManager.UpdateLifes(playerController.HP);
+                    UpdatePlayerHP(playerController.HP);
                 }
                 break;
         }
 
+    }
+
+    public void UpdatePlayerHP(int HP)
+    {
+        uiManager.UpdateLifes(HP);
     }
 
     public void GameOver()

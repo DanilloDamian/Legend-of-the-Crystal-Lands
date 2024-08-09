@@ -156,9 +156,7 @@ public class SlimeIA : MonoBehaviour
                 break;
             case enemyState.PATROL:
                 agent.stoppingDistance = 0;
-                idWayPoint = Random.Range(0, _gameManager.slimeWaitPoints.Length);
-                destination = _gameManager.slimeWaitPoints[idWayPoint].position;
-                agent.destination = destination;
+                ChangeWaitPoint();
 
                 StartCoroutine(PATROL());
 
@@ -173,6 +171,13 @@ public class SlimeIA : MonoBehaviour
                 agent.destination = destination;
                 break;
         }
+    }
+
+    public void ChangeWaitPoint()
+    {
+        idWayPoint = Random.Range(0, _gameManager.slimeWaitPoints.Length);
+        destination = _gameManager.slimeWaitPoints[idWayPoint].position;
+        agent.destination = destination;
     }
 
     IEnumerator Died()

@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     private GameManager _gameManager;
-    public UIManager uiManager;
 
     [Header("Config Player")]
     public float movementSpeed = 3f;    
@@ -35,8 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        animator = GetComponent<Animator>();        
 
     }
 
@@ -126,7 +124,7 @@ public class PlayerController : MonoBehaviour
     void GetHit(int amount)
     {
         HP -= amount;
-        uiManager.UpdateLifes(HP);
+        _gameManager.UpdatePlayerHP(HP);
         if (HP > 0)
         {
             animator.SetTrigger("Hit");
