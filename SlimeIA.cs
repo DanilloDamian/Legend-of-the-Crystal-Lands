@@ -7,7 +7,8 @@ public class SlimeIA : MonoBehaviour
 {
     private GameManager _gameManager;
     private Animator animator;
-    public int HP = 2;
+    public int maxHP = 2;
+    public int HP;
     private bool isDie;
 
     public enemyState enemyState;
@@ -27,6 +28,7 @@ public class SlimeIA : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         ChangeState(enemyState);
+        HP = maxHP;
     }
 
     void Update()
@@ -140,7 +142,6 @@ public class SlimeIA : MonoBehaviour
                 agent.stoppingDistance = 0;
                 destination = transform.position;
                 agent.destination = destination;
-
                 StartCoroutine(IDLE());
                 break;
             case enemyState.ALERT:
@@ -157,9 +158,7 @@ public class SlimeIA : MonoBehaviour
             case enemyState.PATROL:
                 agent.stoppingDistance = 0;
                 ChangeWaitPoint();
-
                 StartCoroutine(PATROL());
-
                 break;
             case enemyState.FURY:
                 destination = transform.position;
@@ -270,6 +269,12 @@ public class SlimeIA : MonoBehaviour
     {
         int rand = Random.Range(0, 100);
         return rand;
+    }
+
+    public void Restart()
+    {
+        ChangeState(enemyState.IDLE);
+        HP = maxHP;
     }
 
 }

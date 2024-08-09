@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public float slimeAlertTime = 3f;
     public float slimeAttackDelay = 1f;
     public float slimeLookAtSpeed = 1f;
+    public EnemyManager enemyManager;
 
     public Transform[] slimeWaitPoints;
 
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
         playerInstance = Instantiate(playerPrefab);
         uiManager = canvas.GetComponent<UIManager>();
         playerController = playerInstance.GetComponent<PlayerController>();
+        enemyManager = FindObjectOfType(typeof(EnemyManager)) as EnemyManager;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -257,6 +259,7 @@ public class GameManager : MonoBehaviour
         textRestart.gameObject.SetActive(true);
         ControlCam2(false);
         StartCoroutine(LoopWithDelay());
+        enemyManager.ResetAllEnemies();
         StartCoroutine(RestartGameCourotine());
     }
 
@@ -276,6 +279,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(timeRestart);
         isNewGame = true;
         textRestart.gameObject.SetActive(false);
+        OnOffRaind(false);
         ChangeGameState(GameState.PLAY);
     }
 
