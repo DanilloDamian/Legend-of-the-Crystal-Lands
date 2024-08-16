@@ -51,6 +51,10 @@ public class GameManager : MonoBehaviour
     public float slimeLookAtSpeed = 1f;
     public EnemyManager enemyManager;
 
+    [Header("Boss")]
+    public float bossAttackDelay = 10f;
+    public float bossDistanceAttack = 5f;
+
     public Transform[] slimeWaitPoints;
 
     [Header("Rain manager")]
