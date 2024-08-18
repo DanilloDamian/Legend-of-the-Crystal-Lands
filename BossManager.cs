@@ -19,6 +19,7 @@ public class BossManager : MonoBehaviour
     private Vector3 destination;
     public enemyState bossState;
     private Vector3 initialPosition;
+    public GameObject cubeTriggerRain;
 
 
     void Start()
@@ -62,6 +63,8 @@ public class BossManager : MonoBehaviour
     {
         isDie = true;
         yield return new WaitForSeconds(3f);
+        _gameManager.OnOffRaind(false);
+        cubeTriggerRain.GetComponent<rainManager>().isRain = false;
         Destroy(this.gameObject);
     }
 
