@@ -5,6 +5,8 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public GameObject[] hearts;
+    [SerializeField]
+    private GameObject uiShop;
 
     public void UpdateLifes(int life)
     {
@@ -31,5 +33,15 @@ public class UIManager : MonoBehaviour
                 hearts[0].SetActive(true);
                 break;
         }
+    }
+
+    public void OpenShop()
+    {
+        uiShop.SetActive(true);        
+    }
+
+    public void CloseShop()
+    {
+        uiShop.SetActive(false);
     }
 }

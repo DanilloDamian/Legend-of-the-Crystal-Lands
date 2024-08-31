@@ -14,7 +14,7 @@ public class BossManager : MonoBehaviour
     public int HP;
     private bool isDie;
     private bool isPlayerVisible;
-    private bool isAttack;
+    public bool isAttack;
     private NavMeshAgent agent;
     private Vector3 destination;
     public enemyState bossState;
@@ -84,7 +84,7 @@ public class BossManager : MonoBehaviour
                 LookAt();
                 destination = _gameManager.playerInstance.transform.position;
                 agent.destination = destination;
-                isAttack = false;
+                
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     Attack();
@@ -122,7 +122,7 @@ public class BossManager : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             isPlayerVisible = true;
-            LookAt();
+            ChangeState(enemyState.FURY);
 
         }
     }
@@ -132,6 +132,7 @@ public class BossManager : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             isPlayerVisible = false;
+            ChangeState(enemyState.IDLE);
         }
     }
 

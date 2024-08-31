@@ -35,13 +35,14 @@ public class GameManager : MonoBehaviour
     public GameObject buttonQuit;
     public Text textMenu;
     public Text textRestart;
+    public GameObject textShopAccess;
     private bool isNewGame = true;
     public int timeRestart = 5;
 
 
     [Header("Inventory")]
     public Text txtDiamonds;
-    private int diamonds;
+    public int diamonds =0;
 
     [Header("Enemy IA")]
     public float slimeIdleWaitTime = 4f;
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
             if (gameState == GameState.PLAY)
             {
                 isNewGame = false;
+                textShopAccess.SetActive(false);
                 ChangeGameState(GameState.PAUSE);
             }
         }
@@ -188,6 +190,7 @@ public class GameManager : MonoBehaviour
                 buttonQuit.SetActive(true);
                 textMenu.text = "Jogo Pausado!";
                 menuGameOver.SetActive(true);
+                uiManager.CloseShop();
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
