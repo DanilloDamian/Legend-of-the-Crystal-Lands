@@ -18,7 +18,7 @@ public class Shop : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && _gameManager.gameState == GameState.PLAY)
         {
             if (!shopActive)
             {
@@ -41,7 +41,7 @@ public class Shop : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && _gameManager.gameState == GameState.PLAY)
         {
             textShopAccess.SetActive(false);
             ExitShop();

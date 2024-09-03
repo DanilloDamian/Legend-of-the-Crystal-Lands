@@ -231,6 +231,7 @@ public class GameManager : MonoBehaviour
         buttonQuit.SetActive(true);
         textMenu.text = "Você morreu!";
         menuGameOver.SetActive(true);
+        textShopAccess.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
