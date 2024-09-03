@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private GameManager _gameManager;
 
     [Header("Config Player")]
-    public float movementSpeed = 3f;    
+    public float movementSpeed = 3f;
 
     [Header("Attack Config")]
     public ParticleSystem fxAttack;
@@ -28,19 +28,21 @@ public class PlayerController : MonoBehaviour
     public LayerMask hitMask;
     public int hitDamage = 1;
 
+    public Material bonusSwordMaterial;
+    private Transform swordTransform;
 
 
     void Start()
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();        
-
+        animator = GetComponent<Animator>();
+        swordTransform = transform.Find("root/pelvis/Weapon/SwordPolyart");
     }
 
     void FixedUpdate()
     {
-        if(_gameManager.gameState == GameState.PLAY)
+        if (_gameManager.gameState == GameState.PLAY)
         {
             Inputs();
 
@@ -48,12 +50,12 @@ public class PlayerController : MonoBehaviour
 
             UpdateAnimator();
         }
-       
+
     }
 
-   void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "TakeDamage")
+        if (other.gameObject.tag == "TakeDamage")
         {
             GetHit(1);
         }
@@ -77,8 +79,8 @@ public class PlayerController : MonoBehaviour
         _gameManager.PlayAudioAttackPlayer();
         fxAttack.Emit(1);
         Collider[] hitInfo = Physics.OverlapSphere(hitBox.position, hitrange, hitMask);
-        foreach(Collider c in hitInfo)
-        {           
+        foreach (Collider c in hitInfo)
+        {
             c.gameObject.SendMessage("GetHit", hitDamage, SendMessageOptions.DontRequireReceiver);
         }
 
@@ -114,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        
+
         if (hitBox)
         {
             Gizmos.DrawWireSphere(hitBox.position, hitrange);
@@ -123,8 +125,7 @@ public class PlayerController : MonoBehaviour
 
     void GetHit(int amount)
     {
-        HP -= amount;
-        _gameManager.UpdatePlayerHP(HP);
+        UpdateLife(-amount);
         if (HP > 0)
         {
             animator.SetTrigger("Hit");
@@ -134,6 +135,27 @@ public class PlayerController : MonoBehaviour
         {
             _gameManager.ChangeGameState(GameState.GAMEOVER);
             animator.SetTrigger("Die");
+        }
+    }
+
+    public void UpdateLife(int amount)
+    {
+        
+         HP += amount;
+        _gameManager.UpdatePlayerHP(HP);
+    }
+
+    public void BonusDamage()
+    {
+        if (swordTransform != null)
+        {
+            Renderer swordRenderer = swordTransform.GetComponent<Renderer>();
+
+            if (swordRenderer != null && bonusSwordMaterial != null)
+            {
+                swordRenderer.material = bonusSwordMaterial;
+                hitDamage = 2;
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
@@ -298,6 +299,25 @@ public class GameManager : MonoBehaviour
     public void ControlCam2(bool camBool)
     {
         vcam2.gameObject.SetActive(camBool);
+    }
+
+    public void BuyBonusDamage(int price)
+    {
+        UpdateDiamonds(-price);
+        playerController.BonusDamage();
+    }
+
+    public void BuyExtraLife(int price)
+    {
+        if (playerController.HP > 0 && playerController.HP < 3)
+        {
+            UpdateDiamonds(-price);
+            playerController.UpdateLife(1);
+        }
+        else
+        {
+            return;
+        }
     }
 
 }

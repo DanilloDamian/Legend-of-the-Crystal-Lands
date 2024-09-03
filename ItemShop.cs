@@ -12,7 +12,7 @@ public class ItemShop : MonoBehaviour
     [SerializeField]
     private Image imageDiamond;
     private Button myButton;
-
+    public int itemID;
 
     void Start()
     {
@@ -20,7 +20,6 @@ public class ItemShop : MonoBehaviour
         myButton = this.GetComponent<Button>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -40,4 +39,22 @@ public class ItemShop : MonoBehaviour
         }
 
     }
+
+    public void BuyItem()
+    {
+        switch(itemID)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                _gameManager.BuyExtraLife(priceItem);
+                break;
+            case 3:
+                _gameManager.BuyBonusDamage(priceItem);
+                break;
+        }
+    }
+
 }
