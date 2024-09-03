@@ -13,20 +13,27 @@ public class ItemShop : MonoBehaviour
     private Image imageDiamond;
     private Button myButton;
     public int itemID;
+    public GameObject textPriceObject;
 
     void Start()
     {
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         myButton = this.GetComponent<Button>();
+        Text textPrice = textPriceObject.GetComponent<Text>();
+        if (textPrice != null)
+        {
+            textPrice.text = priceItem.ToString();
+        }
+
     }
 
     void Update()
     {
-        
-        if(priceItem > _gameManager.diamonds)
-        {      
 
-            myButton.interactable = false;           
+        if (priceItem > _gameManager.diamonds)
+        {
+
+            myButton.interactable = false;
             Text text = myButton.GetComponentInChildren<Text>();
 
             imageDiamond.color = new Color(imageDiamond.color.r, imageDiamond.color.g, imageDiamond.color.b, 0.5f);
@@ -42,7 +49,7 @@ public class ItemShop : MonoBehaviour
 
     public void BuyItem()
     {
-        switch(itemID)
+        switch (itemID)
         {
             case 0:
                 break;
