@@ -7,6 +7,46 @@ public class UIManager : MonoBehaviour
     public GameObject[] hearts;
     [SerializeField]
     private GameObject uiShop;
+    public GameObject[] initialHistoryTexts;
+    public GameObject arrowNextImage;
+    public GameObject historyPanel;
+    public bool arrowActive;
+    public bool historyActive = true;
+    private int textIndex = 0;
+
+    void Start()
+    {
+        Time.timeScale = 0.05f;
+    }
+
+    void FixedUpdate()
+    {
+        if (historyActive)
+        {
+            StopAllCoroutines();
+            StartCoroutine(HistoryInitial());
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+
+            initialHistoryTexts[textIndex].gameObject.SetActive(false);
+            textIndex++;
+            if (textIndex < initialHistoryTexts.Length)
+            {
+                initialHistoryTexts[textIndex].gameObject.SetActive(true);
+            }
+            else
+            {
+                historyActive = false;
+                historyPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+        }
+    }
 
     public void UpdateLifes(int life)
     {
@@ -37,11 +77,18 @@ public class UIManager : MonoBehaviour
 
     public void OpenShop()
     {
-        uiShop.SetActive(true);        
+        uiShop.SetActive(true);
     }
 
     public void CloseShop()
     {
         uiShop.SetActive(false);
+    }
+
+    IEnumerator HistoryInitial()
+    {
+        arrowActive = !arrowActive;
+        arrowNextImage.SetActive(arrowActive);
+        yield return new WaitForSeconds(1f);
     }
 }
