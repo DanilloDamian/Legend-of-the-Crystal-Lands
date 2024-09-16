@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.LowLevel;
 
 public class BossManager : MonoBehaviour
 {
 
     private GameManager _gameManager;
     private Animator animator;
-    public int maxHP = 2;
+    public int maxHP = 5;
     public int HP;
     private bool isDie;
     private bool isPlayerVisible;

@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
             else
             {
                 historyActive = false;
-                historyPanel.SetActive(false);
+                CloseHistory();
                 Time.timeScale = 1f;
             }
         }
@@ -83,6 +83,16 @@ public class UIManager : MonoBehaviour
     public void CloseShop()
     {
         uiShop.SetActive(false);
+    }
+
+    public void CloseHistory()
+    {
+        historyPanel.SetActive(false);
+    }
+
+    public void OpenHistory()
+    {
+        historyPanel.SetActive(true);
     }
 
     IEnumerator HistoryInitial()

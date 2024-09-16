@@ -3,7 +3,6 @@ using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
@@ -192,6 +191,7 @@ public class GameManager : MonoBehaviour
                 textMenu.text = "Jogo Pausado!";
                 menuGameOver.SetActive(true);
                 uiManager.CloseShop();
+                uiManager.CloseHistory();
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
@@ -201,6 +201,11 @@ public class GameManager : MonoBehaviour
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
+                if (uiManager.historyActive)
+                {
+                    uiManager.OpenHistory();
+                    Time.timeScale = 0.05f;
+                }
                 if (isNewGame)
                 {
                     Destroy(playerInstance);
