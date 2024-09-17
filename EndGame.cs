@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class EndGame : MonoBehaviour
 {
-    private bool shopActive;
+    private bool endHistoryActive;
     public UIManager uiManager;
     public GameObject InteractiveButton;
     private GameManager _gameManager;
@@ -15,25 +14,24 @@ public class Shop : MonoBehaviour
         _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
     }
 
-
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player" && _gameManager.gameState == GameState.PLAY)
         {
-            if (!shopActive)
+            if (!endHistoryActive)
             {
                 InteractiveButton.SetActive(true);
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                shopActive = true;
+                endHistoryActive = true;
                 InteractiveButton.SetActive(false);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
                 if (uiManager != null)
                 {
-                    uiManager.OpenShop();
+                    uiManager.OpenEndHistory();
                 }
             }
         }
@@ -44,16 +42,14 @@ public class Shop : MonoBehaviour
         if (other.tag == "Player" && _gameManager.gameState == GameState.PLAY)
         {
             InteractiveButton.SetActive(false);
-            ExitShop();
+            ExitHistory();
         }
     }
 
-    public void ExitShop()
+    public void ExitHistory()
     {
-        uiManager.CloseShop();
+        uiManager.CloseEndHistory();
         _gameManager.ChangeGameState(GameState.PLAY);
-        shopActive = false;
+        endHistoryActive = false;
     }
 }
-
-

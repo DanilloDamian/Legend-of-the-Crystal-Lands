@@ -194,6 +194,7 @@ public class GameManager : MonoBehaviour
                 menuGameOver.SetActive(true);
                 uiManager.CloseShop();
                 uiManager.CloseHistory();
+                uiManager.CloseEndHistory();
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;

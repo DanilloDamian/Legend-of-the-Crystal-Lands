@@ -20,6 +20,7 @@ public class BossManager : MonoBehaviour
     private Vector3 initialPosition;
     public GameObject cubeTriggerRain;
     public GameObject cubeCamBossTrigger;
+    public GameObject npcEndGame;
 
 
     void Start()
@@ -67,6 +68,7 @@ public class BossManager : MonoBehaviour
         cubeTriggerRain.GetComponent<rainManager>().isRain = false;
         _gameManager.ControlCamBoss(false);
         cubeCamBossTrigger.SetActive(false);
+        npcEndGame.SetActive(true);
         Destroy(this.gameObject);
     }
 

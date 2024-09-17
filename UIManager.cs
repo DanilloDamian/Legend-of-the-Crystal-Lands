@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] initialHistoryTexts;
     public GameObject arrowNextImage;
     public GameObject historyPanel;
+    public GameObject endHistoryPanel;
     public bool arrowActive;
     public bool historyActive = true;
     private int textIndex = 0;
@@ -93,6 +94,16 @@ public class UIManager : MonoBehaviour
     public void OpenHistory()
     {
         historyPanel.SetActive(true);
+    }
+
+    public void CloseEndHistory()
+    {
+        endHistoryPanel.SetActive(false);
+    }
+
+    public void OpenEndHistory()
+    {
+        endHistoryPanel.SetActive(true);
     }
 
     IEnumerator HistoryInitial()
