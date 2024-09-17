@@ -22,6 +22,9 @@ public class PlayerTrigger : MonoBehaviour
                 _gameManager.UpdateDiamonds(1);
                 Destroy(other.gameObject);
                 break;
+            case "BossTrigger":
+                _gameManager.ControlCamBoss(true);
+                break;
         }
     }
 
@@ -31,6 +34,9 @@ public class PlayerTrigger : MonoBehaviour
         {
             case "CamTrigger":
                 _gameManager.ControlCam2(false);
+                break;
+            case "BossTrigger":
+                _gameManager.ControlCamBoss(false);
                 break;
         }
     }

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuGameOver;
     public CinemachineVirtualCamera vcam1;
     public CinemachineVirtualCamera vcam2;
+    public CinemachineVirtualCamera vcam3;
     public GameObject canvas;
     public UIManager uiManager;
 
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (vcam1 != null && vcam2 != null)
+        if (vcam1 != null && vcam2 != null && vcam3 != null)
         {
             UpdateCams(playerInstance.transform);
         }     
@@ -117,6 +118,7 @@ public class GameManager : MonoBehaviour
     {
         vcam1.Follow = focus;
         vcam2.Follow = focus;
+        vcam3.Follow = focus;
     }
 
     public void OnOffRaind(bool isRain)
@@ -305,6 +307,11 @@ public class GameManager : MonoBehaviour
     public void ControlCam2(bool camBool)
     {
         vcam2.gameObject.SetActive(camBool);
+    }
+
+    public void ControlCamBoss(bool camBool)
+    {
+        vcam3.gameObject.SetActive(camBool);
     }
 
     public void BuyBonusDamage(int price)

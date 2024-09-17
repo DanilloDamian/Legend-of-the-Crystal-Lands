@@ -19,6 +19,7 @@ public class BossManager : MonoBehaviour
     public enemyState bossState;
     private Vector3 initialPosition;
     public GameObject cubeTriggerRain;
+    public GameObject cubeCamBossTrigger;
 
 
     void Start()
@@ -64,6 +65,8 @@ public class BossManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         _gameManager.OnOffRaind(false);
         cubeTriggerRain.GetComponent<rainManager>().isRain = false;
+        _gameManager.ControlCamBoss(false);
+        cubeCamBossTrigger.SetActive(false);
         Destroy(this.gameObject);
     }
 
