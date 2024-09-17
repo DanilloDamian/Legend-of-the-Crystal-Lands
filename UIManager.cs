@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-
             initialHistoryTexts[textIndex].gameObject.SetActive(false);
             textIndex++;
             if (textIndex < initialHistoryTexts.Length)

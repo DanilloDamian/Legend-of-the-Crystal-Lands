@@ -273,8 +273,7 @@ public class GameManager : MonoBehaviour
     {
         textRestart.text = timeRestart.ToString();
         isNewGame = true;
-        textRestart.gameObject.SetActive(true);
-        ControlCam2(false);
+        textRestart.gameObject.SetActive(true);        
         StartCoroutine(LoopWithDelay());
         enemyManager.ResetAllEnemies();
         StartCoroutine(RestartGameCourotine());
@@ -294,6 +293,8 @@ public class GameManager : MonoBehaviour
     IEnumerator RestartGameCourotine()
     {
         yield return new WaitForSeconds(timeRestart);
+        ControlCam2(false);
+        ControlCamBoss(false);
         isNewGame = true;
         textRestart.gameObject.SetActive(false);
         OnOffRaind(false);

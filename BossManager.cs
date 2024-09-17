@@ -49,7 +49,8 @@ public class BossManager : MonoBehaviour
         HP -= amountDmg;
         if (HP > 0)
         {
-            ChangeState(enemyState.FURY);
+            
+            //ChangeState(enemyState.FURY);
             animator.SetTrigger("GetHit");
         }
         else

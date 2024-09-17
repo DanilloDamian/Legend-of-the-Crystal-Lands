@@ -7,10 +7,12 @@ public class EnemyManager : MonoBehaviour
 
     public Dictionary<GameObject, Vector3> initialPositions = new Dictionary<GameObject, Vector3>();
     public GameObject[] enemies;
+    public GameObject boss;
 
     void Awake()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        boss = GameObject.FindGameObjectWithTag("Boss");
     }
     
     void Start()
@@ -32,11 +34,13 @@ public class EnemyManager : MonoBehaviour
     IEnumerator ResetPositionsEnemies()
     {
         yield return new WaitForSeconds(2f);
+        boss.GetComponent<BossManager>().Restart();
         foreach (KeyValuePair<GameObject, Vector3> position in initialPositions)
         {
            position.Key.transform.position = position.Value;
            position.Key.GetComponent<SlimeIA>().Restart();
         }
+        
     }
 
 
