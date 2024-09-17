@@ -24,6 +24,8 @@ public class PlayerTrigger : MonoBehaviour
                 break;
             case "BossTrigger":
                 _gameManager.ControlCamBoss(true);
+                _gameManager.audioBackground.Pause();
+                _gameManager.audioBossFight.Play();
                 break;
         }
     }
@@ -37,6 +39,8 @@ public class PlayerTrigger : MonoBehaviour
                 break;
             case "BossTrigger":
                 _gameManager.ControlCamBoss(false);
+                _gameManager.audioBossFight.Pause();
+                _gameManager.audioBackground.Play();
                 break;
         }
     }

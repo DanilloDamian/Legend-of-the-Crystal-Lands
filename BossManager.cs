@@ -49,8 +49,6 @@ public class BossManager : MonoBehaviour
         HP -= amountDmg;
         if (HP > 0)
         {
-            
-            //ChangeState(enemyState.FURY);
             animator.SetTrigger("GetHit");
         }
         else
@@ -70,6 +68,8 @@ public class BossManager : MonoBehaviour
         _gameManager.ControlCamBoss(false);
         cubeCamBossTrigger.SetActive(false);
         npcEndGame.SetActive(true);
+        _gameManager.audioBossFight.Pause();
+        _gameManager.audioPeace.Play();
         Destroy(this.gameObject);
     }
 

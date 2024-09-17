@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
     public AudioSource audioAttackSlime;
     public AudioSource audioSword;
     public AudioSource audioPlayerTakeDamage;
+    public AudioSource audioBossFight;
+    public AudioSource audioPeace;
     private bool audioHasPlayed;
 
 
@@ -112,7 +114,6 @@ public class GameManager : MonoBehaviour
         }     
         
     }
-
 
     public void UpdateCams(Transform focus)
     {
@@ -298,6 +299,14 @@ public class GameManager : MonoBehaviour
         isNewGame = true;
         textRestart.gameObject.SetActive(false);
         OnOffRaind(false);
+        if(!audioPeace.isPlaying)
+        {
+           if(audioBossFight.isPlaying)
+            {
+                audioBossFight.Pause();
+                audioBackground.Play();
+            }
+        }
         ChangeGameState(GameState.PLAY);
     }
 
