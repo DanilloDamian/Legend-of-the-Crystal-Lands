@@ -344,4 +344,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LeaveGame()
+    {
+        StartCoroutine(Leave());
+    }
+    IEnumerator Leave()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
 }
