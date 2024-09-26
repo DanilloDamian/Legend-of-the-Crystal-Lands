@@ -6,9 +6,18 @@ using UnityEngine.SceneManagement;
 public class SceneMenuManager : MonoBehaviour
 {
     public GameObject[] images;
+    [Header("Audio")]
+    public AudioSource audioBackground;
+    public AudioSource audioMenuConfirm;
+
+    void Start()
+    {
+        audioBackground.Play();
+    }
 
     public void PlayGame()
     {
+        audioMenuConfirm.Play();
         foreach (var image in images)
         {
             image.SetActive(false);
@@ -18,6 +27,7 @@ public class SceneMenuManager : MonoBehaviour
 
     public void LeaveGame()
     {
+        audioMenuConfirm.Play();
         StartCoroutine(Leave());
     }
 
