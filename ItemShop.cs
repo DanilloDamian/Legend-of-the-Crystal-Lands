@@ -49,6 +49,7 @@ public class ItemShop : MonoBehaviour
 
     public void BuyItem()
     {
+        _gameManager.audioMenuConfirm.Play();
         switch (itemID)
         {
             case 0:

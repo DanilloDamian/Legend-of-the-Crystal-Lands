@@ -350,6 +350,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Leave()
     {
+        audioMenuConfirm.Play();
         yield return new WaitForSecondsRealtime(0.2f);
         Application.Quit();
 #if UNITY_EDITOR
