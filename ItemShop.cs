@@ -53,13 +53,12 @@ public class ItemShop : MonoBehaviour
         switch (itemID)
         {
             case 0:
+                _gameManager.BuyExtraSpeed(priceItem);
                 break;
             case 1:
-                break;
-            case 2:
                 _gameManager.BuyExtraLife(priceItem);
                 break;
-            case 3:
+            case 2:
                 _gameManager.BuyBonusDamage(priceItem);
                 break;
         }

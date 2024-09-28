@@ -330,6 +330,11 @@ public class GameManager : MonoBehaviour
         UpdateDiamonds(-price);
         playerController.BonusDamage();
     }
+    public void BuyExtraSpeed(int price)
+    {
+        UpdateDiamonds(-price);
+        playerController.BonusSpeed();
+    }    
 
     public void BuyExtraLife(int price)
     {

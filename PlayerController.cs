@@ -158,4 +158,10 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void BonusSpeed()
+    {
+        movementSpeed = 5f;
+    }
+
 }
