@@ -11,18 +11,19 @@ public class UIManager : MonoBehaviour
     public GameObject arrowNextImage;
     public GameObject historyPanel;
     public GameObject endHistoryPanel;
-    public bool arrowActive;
-    public bool historyActive = true;
+    public bool arrowActive;    
     private int textIndex = 0;
+    private GameManager _gameManager;
 
     void Start()
     {
+        _gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         Time.timeScale = 0.05f;
     }
 
     void FixedUpdate()
     {
-        if (historyActive)
+        if (_gameManager.historyActive)
         {
             StopAllCoroutines();
             StartCoroutine(HistoryInitial());
@@ -41,7 +42,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                historyActive = false;
+                _gameManager.historyActive = false;
                 CloseHistory();
                 Time.timeScale = 1f;
             }

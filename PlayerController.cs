@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public float hitrange;
     public LayerMask hitMask;
     public int hitDamage = 1;
+    public bool haveBonusDamage;
+    public bool haveBonusSpeed;
 
     public Material bonusSwordMaterial;
     private Transform swordTransform;
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Fire1") && !isAttack)
+        if ((Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.Space)) && !isAttack && !_gameManager.historyActive)
         {
             Attack();
         }
@@ -155,6 +157,7 @@ public class PlayerController : MonoBehaviour
             {
                 swordRenderer.material = bonusSwordMaterial;
                 hitDamage = 2;
+                haveBonusDamage = true;
             }
         }
     }
@@ -162,6 +165,7 @@ public class PlayerController : MonoBehaviour
     public void BonusSpeed()
     {
         movementSpeed = 5f;
+        haveBonusSpeed = true;
     }
 
 }

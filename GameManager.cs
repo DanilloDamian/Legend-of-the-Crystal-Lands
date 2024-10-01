@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public CinemachineVirtualCamera vcam3;
     public GameObject canvas;
     public UIManager uiManager;
+    public bool historyActive = true;
 
     [Header("Menu Config")]
     public GameObject buttonRestart;
@@ -205,7 +206,7 @@ public class GameManager : MonoBehaviour
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
-                if (uiManager.historyActive)
+                if (historyActive)
                 {
                     uiManager.OpenHistory();
                     Time.timeScale = 0.05f;
@@ -327,13 +328,20 @@ public class GameManager : MonoBehaviour
 
     public void BuyBonusDamage(int price)
     {
-        UpdateDiamonds(-price);
-        playerController.BonusDamage();
+        if (!playerController.haveBonusDamage)
+        {
+            UpdateDiamonds(-price);
+            playerController.BonusDamage();
+        }
+        
     }
     public void BuyExtraSpeed(int price)
     {
-        UpdateDiamonds(-price);
-        playerController.BonusSpeed();
+        if (!playerController.haveBonusSpeed)
+        {
+            UpdateDiamonds(-price);
+            playerController.BonusSpeed();
+        }
     }    
 
     public void BuyExtraLife(int price)
